@@ -1,0 +1,12 @@
+Falta definir:
+O quao fiel sera esse clone do projeto do pinterest
+Node puro ou Adonis => Node puro
+Graphql ou REST => Rest
+O orm que eu irei utilizar caso seja nodejs => Sequelize
+Como caralhos eu vou conectar os websockets
+Se eu vou começar pelo flutter ou pelo RN => Flutter
+
+Coisas definidas:
+O microframework utilizado caso seja Node puro será o hapijs
+
+
