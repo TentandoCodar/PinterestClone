@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import bcrypt from 'bcryptjs';
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
+import auth from './auth';
 
 module.exports = {
     async store(req, res) {
@@ -73,24 +74,14 @@ module.exports = {
         
     },
     async profile(req,res) {
-        const {token} = req.headers;
-        const {id} = req.params;
-        jwt.verify(token, process.env.SECRET_KEY, async (err, resp) => {
-            if(err) {
-                return res.status(500).send({message: "Token invalido"});
-            }
-            const user = await User.findOne({
-                where: {
-                    token: token,
-                }
-            })
-            if(!user) {
-                return res.status(500).send({message: "User dont exists"});
-            }
-            return res.json(user);
+        const user = await User.findAll({
+            attributes: ['name', 'email'],
+            include: {
+                association: 'pictures',
+                attributes: ['path', 'name', 'description', 'owner_id']
+            },
         })
-
-       
+        return res.json(user);
     }
     
 }

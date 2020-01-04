@@ -13,6 +13,12 @@ class User extends Model {
         })
     }
 
+    static associate(models) {
+        this.hasMany(models.Picture, {
+            foreignKey: 'owner_id',
+            as: 'pictures'
+        });
+    }
     
 }
 

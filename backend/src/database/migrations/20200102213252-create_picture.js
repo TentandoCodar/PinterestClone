@@ -21,8 +21,8 @@ module.exports = {
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
     owner_id: {
       type: DataTypes.INTEGER,
@@ -55,5 +55,6 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
+   return queryInterface.dropTable('pictures');
   }
 };
