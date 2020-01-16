@@ -16,9 +16,9 @@ module.exports = {
                 ]
             }
         })
-
+        
         if(user) {
-            return res.json({message: "User already exists"});
+            return res.status(500).send({message: "User already exists"})
         }
         bcrypt.genSalt(10,  (err,salt) => {
             bcrypt.hash(password, salt,  async (err, hash) => {
@@ -42,6 +42,7 @@ module.exports = {
     },
     async login(req,res) {
         const {nameOrEmail, password} = req.body;
+        
         const user = await User.findOne({
             where: {
                 [Op.or]: [
@@ -51,6 +52,10 @@ module.exports = {
             },
             raw: true
         })
+
+        if(!user) {
+            return res.status(400).send({message: "Error"});
+        }
         const isLogued = bcrypt.compareSync(password, user.password);
         
         if(isLogued) {
@@ -63,9 +68,11 @@ module.exports = {
             }, {
                 where: {
                     id
-                }
+                },
+                raw: true
             })
-            return res.status(200).send({auth: true, token: token});
+            user.password = "";
+            return res.status(200).send({auth: true, token: token, user: user});
             
         }
         else {
@@ -74,8 +81,12 @@ module.exports = {
         
     },
     async profile(req,res) {
-        const user = await User.findAll({
+        const {id} = req.params;
+        const user = await User.findOne({
             attributes: ['name', 'email'],
+            where: {
+                id
+            },
             include: {
                 association: 'pictures',
                 attributes: ['path', 'name', 'description', 'owner_id']

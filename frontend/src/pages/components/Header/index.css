@@ -1,0 +1,10 @@
+.iconsHover {
+    padding: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.iconsHover:hover {
+    background-color: #eee;
+}
+

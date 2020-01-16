@@ -2,7 +2,9 @@ import PictureModel from '../database/models/Picture';
 import UserModel from '../database/models/User';
 module.exports = {
     async store(req,res) {
+        
         const { filename } = req.file;
+
         const {owner_id, name, description} = req.body;
         const user = await UserModel.findByPk(owner_id);
 
@@ -21,8 +23,17 @@ module.exports = {
 
     },
     async index(req,res) {
+        const {token} = req.params;
+        if(!token) {
+            const pictures = await PictureModel.findAll();
+            return res.json({pictures: pictures});
+        }
         const pictures = await PictureModel.findAll();
-
-        return res.json(pictures);
+        const user = await UserModel.findOne({
+            where: {
+                token: token
+            }
+        })
+        return res.json({pictures: pictures,user: user});
     }, 
 }

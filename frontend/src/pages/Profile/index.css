@@ -1,0 +1,10 @@
+.Icons {
+    margin-top: 25px;
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 100px;
+}
+
+.Icons:hover {
+    background-color: #eee;
+}
